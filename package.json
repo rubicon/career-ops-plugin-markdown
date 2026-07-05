@@ -1,0 +1,40 @@
+{
+  "name": "career-ops-plugin-markdown",
+  "version": "0.1.0",
+  "description": "Export your cv.md to a clean, markdownlint-compliant Markdown resume, honoring #### nested sub-roles for fractional, interim, and umbrella engagements.",
+  "license": "MIT",
+  "author": "Dax Davis <dax@rubicontv.com>",
+  "homepage": "https://github.com/rubicon/career-ops-plugin-markdown#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubicon/career-ops-plugin-markdown.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rubicon/career-ops-plugin-markdown/issues"
+  },
+  "keywords": [
+    "career-ops",
+    "career-ops-plugin",
+    "markdown",
+    "resume",
+    "cv"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node test/smoke.mjs",
+    "cv": "node bin/generate-markdown.mjs",
+    "sample": "node bin/generate-markdown.mjs examples/cv-fractional-example.md output/cv-priya-okonkwo-reyes.md",
+    "lint:md": "markdownlint-cli2",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "markdownlint-cli2": "^0.15.0",
+    "prettier": "^3.4.2"
+  }
+}

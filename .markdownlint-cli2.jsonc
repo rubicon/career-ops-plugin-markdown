@@ -1,0 +1,8 @@
+{
+  // markdownlint-cli2 config: rules live in .markdownlint.json; this file only
+  // selects which Markdown to lint. It covers the committed docs and the
+  // generated sample resume in output/, proving the engine's output is
+  // markdownlint-compliant. Third-party and non-authored Markdown is ignored.
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules", "CHANGELOG.md", "examples/**", ".github/**"],
+}
