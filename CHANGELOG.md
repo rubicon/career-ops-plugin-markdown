@@ -5,6 +5,13 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2](https://github.com/rubicon/career-ops-plugin-markdown/compare/v0.1.1...v0.1.2) (2026-08-11)
+
+
+### Bug Fixes
+
+* **ci:** address the release-please 1Password item by UUID ([#23](https://github.com/rubicon/career-ops-plugin-markdown/issues/23)) ([4535b80](https://github.com/rubicon/career-ops-plugin-markdown/commit/4535b801f84e4f20f51cb8d227f421db32d930d3))
+
 ## [0.1.1] - 2026-07-30
 
 First published release. A `0.1.0` was written up during development but never tagged or released, so the tag history begins at `v0.1.1` and the initial feature set is recorded here.
