@@ -48,8 +48,17 @@ its own bullets, instead of being flattened into separate jobs. A `###` with no
 `####` children renders as an ordinary role.
 
 A `###` or `####` written above the first `##` has no section to sit under, so it
-becomes a section of its own and its body comes with it. Nothing you put between
-the `# Name` and the first `## Section` is dropped.
+is lifted until it has one, and its body comes with it. The lift is a single
+amount for the whole run above the first `##`, fixed by the first such heading,
+so headings written at the same level up there always render at the same level as
+each other: a CV with no `##` at all gets one section per `###`, and a `###`
+umbrella with `####` engagements under it keeps that shape one level up.
+
+Two things are still not carried across. A heading deeper than `####` (an `#####`
+or below) has no place in this hierarchy and is left where it is. And a fenced
+code block is content rather than structure, so nothing inside it is read as a
+heading; one written before the first section has no block to be held by and is
+dropped, while one inside a section is kept as a code block.
 
 There is a runnable, non-personal example at
 [`examples/cv-fractional-example.md`](examples/cv-fractional-example.md). It
