@@ -86,4 +86,69 @@ assert(/#### Lumen Health.* -- .*2023-2024/.test(out), 'sub-role heading should 
 const again = buildCvMarkdown(md);
 assert.equal(out, again, 'output should be deterministic for identical input');
 
+// --- Nesting before the first ## section ------------------------------------
+// A ### / #### above the first ## has no parent section to attach to. It must
+// still reach the output: the heading becomes a section of its own, and the
+// body under it stops being mistaken for another contact field.
+const preSectionCv = [
+  '# CV -- Rowan Adeyemi',
+  '',
+  'rowan@example.com',
+  '',
+  '### Career Snapshot',
+  '',
+  'Platform lead, twelve years in developer tooling.',
+  '',
+  '- Shipped the internal build platform.',
+  '',
+  '## Experience',
+  '',
+  '### Northwind',
+  '',
+  '**Staff Engineer**',
+  '',
+  '2019-2023',
+  '',
+  '- Led the storage migration.',
+].join('\n');
+
+const preCv = parseCvMarkdown(preSectionCv);
+assert.deepEqual(
+  preCv.sections.map((s) => s.title),
+  ['Career Snapshot', 'Experience'],
+  'a ### before the first ## should open a section of its own, not vanish',
+);
+assert.deepEqual(
+  preCv.contact,
+  ['rowan@example.com'],
+  'body under a pre-section ### is content, not another contact field',
+);
+
+const preOut = buildCvMarkdown(preSectionCv);
+assert(preOut.includes('## Career Snapshot'), 'the pre-section heading must survive the render');
+assert(
+  preOut.includes('Platform lead, twelve years in developer tooling.'),
+  'prose under a pre-section heading must survive the render',
+);
+assert(
+  preOut.includes('- Shipped the internal build platform.'),
+  'bullets under a pre-section heading must survive the render',
+);
+// Heading levels still increment by one at a time (MD001): the promoted heading
+// is a ##, so nothing jumps straight from the H1 to an H3.
+assert(!/^###\s/m.test(preOut.split('## Experience')[0]), 'no H3 before the first H2 (MD001)');
+
+// The same promotion applies to a #### with neither a section nor an entry.
+const preSubroleCv = '# CV -- Rowan Adeyemi\n\n#### Early Work\n\n- Ran the helpdesk.\n';
+const preSubroleParsed = parseCvMarkdown(preSubroleCv);
+assert.deepEqual(
+  preSubroleParsed.sections.map((s) => s.title),
+  ['Early Work'],
+  'a #### before the first ## should open a section of its own too',
+);
+assert(
+  buildCvMarkdown(preSubroleCv).includes('- Ran the helpdesk.'),
+  'bullets under a pre-section #### must survive the render',
+);
+
 console.log('✓ smoke ok:', keys.join(', '));

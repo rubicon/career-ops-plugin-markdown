@@ -47,6 +47,10 @@ underneath it. Each nested sub-role keeps its own date on the heading line and
 its own bullets, instead of being flattened into separate jobs. A `###` with no
 `####` children renders as an ordinary role.
 
+A `###` or `####` written above the first `##` has no section to sit under, so it
+becomes a section of its own and its body comes with it. Nothing you put between
+the `# Name` and the first `## Section` is dropped.
+
 There is a runnable, non-personal example at
 [`examples/cv-fractional-example.md`](examples/cv-fractional-example.md). It
 renders to this shape:
