@@ -639,4 +639,28 @@ assert.equal(
   'a fenced block inside a sub-role stays between the bullets it was written between',
 );
 
+// A fence the author never closed still ends at the end of the document, and what
+// it holds is what they wrote. Splitting on newlines yields one empty trailing
+// element for the document's final newline; inside an open fence that artifact was
+// being kept as a content line, so every unclosed block gained a blank last line.
+// A blank line the author really did write (a document ending in a blank line) is
+// still theirs and is kept.
+const unclosedCv = [fixtureH1, '', '## Notes', '', '```js', 'code();', ''].join('\n');
+assert.deepEqual(
+  parseCvMarkdown(unclosedCv).sections[0].blocks[0].lines,
+  ['code();'],
+  'the final newline of a document is not a line of an unclosed fenced block',
+);
+assert.equal(
+  buildCvMarkdown(unclosedCv),
+  [renderedH1, '', '## Notes', '', '```js', 'code();', '```', ''].join('\n'),
+  'an unclosed fenced block renders with nothing invented at its end',
+);
+assert.deepEqual(
+  parseCvMarkdown([fixtureH1, '', '## Notes', '', '```js', 'code();', '', ''].join('\n'))
+    .sections[0].blocks[0].lines,
+  ['code();', ''],
+  'a blank line the author actually wrote inside the block is still kept',
+);
+
 console.log('✓ smoke ok:', keys.join(', '));
