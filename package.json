@@ -1,6 +1,6 @@
 {
   "name": "career-ops-plugin-markdown",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Export your cv.md to a clean, markdownlint-compliant Markdown resume, honoring #### nested sub-roles for fractional, interim, and umbrella engagements.",
   "license": "MIT",
   "author": "Dax Davis <dax@rubicontv.com>",
