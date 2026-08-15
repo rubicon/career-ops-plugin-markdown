@@ -55,7 +55,9 @@ each other: a CV with no `##` at all gets one section per `###`, and a `###`
 umbrella with `####` engagements under it keeps that shape one level up.
 
 Two things are still not carried across. A heading deeper than `####` (an `#####`
-or below) has no place in this hierarchy and is left where it is. And a fenced
+or below) has no place in this hierarchy, so it is not read as a heading at all and
+its line is kept as ordinary content instead: a bullet inside a role, a paragraph
+at section level, or a contact field above the first section. And a fenced
 code block is content rather than structure, so nothing inside it is read as a
 heading; one written before the first section has no block to be held by and is
 dropped, while one inside a section is kept as a code block. Every code block is
