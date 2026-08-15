@@ -5,6 +5,13 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3](https://github.com/rubicon/career-ops-plugin-markdown/compare/v0.1.2...v0.1.3) (2026-08-15)
+
+
+### Bug Fixes
+
+* keep headings written above the first ## section ([#39](https://github.com/rubicon/career-ops-plugin-markdown/issues/39)) ([dd633cd](https://github.com/rubicon/career-ops-plugin-markdown/commit/dd633cdd4c3fedefbe0a6dd3af51c956a31f0f3a))
+
 ## [0.1.2](https://github.com/rubicon/career-ops-plugin-markdown/compare/v0.1.1...v0.1.2) (2026-08-11)
 
 
