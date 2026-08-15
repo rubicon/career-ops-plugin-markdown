@@ -58,7 +58,9 @@ Two things are still not carried across. A heading deeper than `####` (an `#####
 or below) has no place in this hierarchy and is left where it is. And a fenced
 code block is content rather than structure, so nothing inside it is read as a
 heading; one written before the first section has no block to be held by and is
-dropped, while one inside a section is kept as a code block.
+dropped, while one inside a section is kept as a code block. Every code block is
+re-emitted with backtick fences so the resume keeps one fence style, which means a
+tilde-fenced block comes back as a backtick-fenced one, keeping its language.
 
 There is a runnable, non-personal example at
 [`examples/cv-fractional-example.md`](examples/cv-fractional-example.md). It
