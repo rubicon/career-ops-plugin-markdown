@@ -48,17 +48,21 @@ const exp = cv.sections.find((s) => s.title === 'Experience');
 const umbrella = exp.blocks.find(
   (b) => b.type === 'entry' && /Reyes Systems Studio/.test(b.company),
 );
+// An entry and a sub-role hold one ordered content run, so that a code block
+// written among their bullets keeps its place. Bullets are counted out of it.
+const bulletsOf = (holder) => holder.content.filter((b) => b.type === 'bullet');
+
 assert(umbrella, 'umbrella entry not found');
 assert.equal(umbrella.subroles.length, 3, 'umbrella should hold 3 nested #### sub-roles');
 assert(/Lumen Health/.test(umbrella.subroles[0].title), 'first sub-role title wrong');
 assert.equal(umbrella.subroles[0].date, '2023-2024', 'sub-role date wrong');
-assert.equal(umbrella.subroles[0].bullets.length, 3, 'sub-role should keep its own bullets');
+assert.equal(bulletsOf(umbrella.subroles[0]).length, 3, 'sub-role should keep its own bullets');
 
 const standard = exp.blocks.find((b) => b.type === 'entry' && /Brightloom/.test(b.company));
 assert(standard, 'standard entry not found');
 assert.equal(standard.subroles.length, 0, 'a ### with no #### should have no sub-roles');
 assert(
-  standard.role && standard.date && standard.bullets.length === 3,
+  standard.role && standard.date && bulletsOf(standard).length === 3,
   'standard role should keep role/date/bullets',
 );
 
@@ -552,6 +556,87 @@ assert.equal(
   buildCvMarkdown([fixtureH1, '', '## Notes', '', '```js', '```', '', '- After.'].join('\n')),
   [renderedH1, '', '## Notes', '', '```js', '```', '', '- After.', ''].join('\n'),
   'an empty fenced block in a section is preserved, with nothing invented inside it',
+);
+
+// A fenced block written inside a ### entry or a #### sub-role belongs where the
+// author put it. Holding every block at section level while bullets kept attaching
+// to the still-open entry reordered the document: the entry rendered in full, so a
+// bullet written after the block came out before it.
+const fenceInEntryCv = [
+  fixtureH1,
+  '',
+  '## Experience',
+  '',
+  '### Company',
+  '',
+  '- Bullet before the block.',
+  '',
+  '```js',
+  'code();',
+  '```',
+  '',
+  '- Bullet after the block.',
+].join('\n');
+assert.equal(
+  buildCvMarkdown(fenceInEntryCv),
+  [
+    renderedH1,
+    '',
+    '## Experience',
+    '',
+    '### Company',
+    '',
+    '- Bullet before the block.',
+    '',
+    '```js',
+    'code();',
+    '```',
+    '',
+    '- Bullet after the block.',
+    '',
+  ].join('\n'),
+  'a fenced block inside an entry stays between the bullets it was written between',
+);
+
+// The same for a #### sub-role, whose content is held one level deeper again.
+const fenceInSubroleCv = [
+  fixtureH1,
+  '',
+  '## Experience',
+  '',
+  '### Umbrella',
+  '',
+  '#### Client',
+  '',
+  '- Bullet before the block.',
+  '',
+  '```sh',
+  'make build',
+  '```',
+  '',
+  '- Bullet after the block.',
+].join('\n');
+assert.equal(
+  buildCvMarkdown(fenceInSubroleCv),
+  [
+    renderedH1,
+    '',
+    '## Experience',
+    '',
+    '### Umbrella',
+    '',
+    '#### Client',
+    '',
+    '- Bullet before the block.',
+    '',
+    '```sh',
+    'make build',
+    '```',
+    '',
+    '- Bullet after the block.',
+    '',
+  ].join('\n'),
+  'a fenced block inside a sub-role stays between the bullets it was written between',
 );
 
 console.log('✓ smoke ok:', keys.join(', '));
